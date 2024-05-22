@@ -16,6 +16,13 @@ import {
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import useMenu from "../../hooks/useMenu";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination} from "swiper/modules";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 const OurShop = () => {
   const TabStore = ["popular", "salad", "drinks", "dessert", "pizza", "soup"];
@@ -25,36 +32,49 @@ const OurShop = () => {
   const foodItems = useMenu(TabStore[currentIndex]);
   const card = (items = []) => {
     return (
-      <div className="grid grid-cols-4 gap-4">
+      <Swiper
+        slidesPerView={4}
+        spaceBetween={30}
+        pagination={{ clickable: true }}
+        modules={[Pagination]}
+        className="mySwiper"
+      >
         {items.map((item, id) => {
           return (
-            <Card key={id} maxW="425px" paddingBottom={"15px"}>
-              <CardBody>
-                <Image
-                  src="/home/slide1.jpg"
-                  alt="Green double couch with wooden legs"
-                  //   borderRadius="lg"
-                  width={"100%"}
-                  height={"350px"}
-                />
-                <Stack mt={"10px"} spacing="3">
-                  <Heading size="md" textAlign={"center"}>
-                    Living room Sofa
-                  </Heading>
-                  <Text textAlign={"center"}>
-                    Lettuce, Eggs, Parmesan Cheese, Chicken Breast Fillets.
-                  </Text>
-                </Stack>
-              </CardBody>
-              <div className="flex justify-center">
-                <Button w={"fit-content"} borderBottom={"4px solid #BB8506"}>
-                  Add to Cart
-                </Button>
-              </div>
-            </Card>
+            <SwiperSlide key={id}>
+              <Card
+                maxW="425px"
+                marginBottom={"40px"}
+                marginTop={"20px"}
+                paddingBottom={"15px"}
+              >
+                <CardBody>
+                  <Image
+                    src="/home/slide1.jpg"
+                    alt="Green double couch with wooden legs"
+                    //   borderRadius="lg"
+                    width={"100%"}
+                    height={"350px"}
+                  />
+                  <Stack mt={"10px"} spacing="3">
+                    <Heading size="md" textAlign={"center"}>
+                      Living room Sofa
+                    </Heading>
+                    <Text textAlign={"center"}>
+                      Lettuce, Eggs, Parmesan Cheese, Chicken Breast Fillets.
+                    </Text>
+                  </Stack>
+                </CardBody>
+                <div className="flex justify-center">
+                  <Button w={"fit-content"} borderBottom={"4px solid #BB8506"}>
+                    Add to Cart
+                  </Button>
+                </div>
+              </Card>
+            </SwiperSlide>
           );
         })}
-      </div>
+      </Swiper>
     );
   };
   return (

@@ -22,9 +22,9 @@ const routes = createBrowserRouter([
         element: <OurMenu />,
       },
       {
-        path:'/our-shop/:param',
-        element:<OurShop/>
-      }
+        path: "/our-shop/:param",
+        element: <OurShop />,
+      },
     ],
   },
 ]);
