@@ -23,7 +23,6 @@ const OurShop = () => {
   const initialIndex = TabStore.indexOf(category.param);
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const foodItems = useMenu(TabStore[currentIndex]);
-  console.log(foodItems);
   const card = (items = []) => {
     return (
       <div className="grid grid-cols-4 gap-4">
