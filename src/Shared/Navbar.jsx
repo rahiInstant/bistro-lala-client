@@ -1,11 +1,19 @@
-import { useState } from "react";
-import { CiBellOn } from "react-icons/ci";
-import { NavLink } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../Auth/AuthContext";
+import toast from "react-hot-toast";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logOut } = useContext(AuthContext);
+  const successMsg = (msg) => toast.success(msg);
 
+  function handleLogOut() {
+    logOut()
+      .then(() => successMsg("Log out successfully."))
+      .catch((err) => console.log(err));
+  }
   return (
-    <nav className="max-w-[1920px] mx-auto  fixed z-40 w-full backdrop-blur-md bg-[#00000075] shadow ">
+    <nav className="max-w-[1920px] mx-auto top-0 left-0  fixed z-40 w-full backdrop-blur-md bg-[#00000075] shadow ">
       <div className="container px-6 py-4 mx-auto">
         <div className="lg:flex lg:items-center lg:justify-between">
           <div className="flex items-center justify-between ">
@@ -90,30 +98,20 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center mt-4 lg:mt-0">
-              <button
-                className="hidden mx-4 text-white text-3xl transition-colors duration-300 transform lg:block  focus:outline-none"
-                aria-label="show notifications"
-              >
-                <CiBellOn />
-              </button>
-
-              <button
-                type="button"
-                className="flex items-center focus:outline-none"
-                aria-label="toggle profile dropdown"
-              >
-                <div className="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
-                  <img
-                    src=""
-                    className="object-cover w-full h-full"
-                    alt="avatar"
-                  />
-                </div>
-
-                <h3 className="mx-2 text-gray-700 dark:text-gray-200 lg:hidden">
-                  Khatab wedaa
-                </h3>
-              </button>
+              {user ? (
+                <button
+                  onClick={() => handleLogOut()}
+                  className="rounded-lg border-2 border-red-500 px-3 py-2 text-white"
+                >
+                  Log Out
+                </button>
+              ) : (
+                <Link to="/login">
+                  <button className="rounded-lg border-2 border-green-500 px-3 py-2 text-white">
+                    Sign In
+                  </button>
+                </Link>
+              )}
             </div>
           </div>
         </div>

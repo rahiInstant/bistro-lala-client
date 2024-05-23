@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./Layout/Root.jsx";
@@ -8,6 +7,10 @@ import Home from "./Layout/Home/Home.jsx";
 import { ChakraProvider } from "@chakra-ui/react";
 import OurMenu from "./Layout/OurMenu/OurMenu.jsx";
 import OurShop from "./Layout/OurShop/OurShop.jsx";
+import AuthProvider from "./Auth/AuthProvider.jsx";
+import Login from "./Layout/user-entry/Login.jsx";
+import SignUp from "./Layout/user-entry/SignUp.jsx";
+import { Toaster } from "react-hot-toast";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -25,14 +28,25 @@ const routes = createBrowserRouter([
         path: "/our-shop/:param",
         element: <OurShop />,
       },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/sign-up",
+        element: <SignUp />,
+      },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ChakraProvider>
-      <RouterProvider router={routes} />
-    </ChakraProvider>
+    <AuthProvider>
+      <ChakraProvider>
+        <Toaster />
+        <RouterProvider router={routes} />
+      </ChakraProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

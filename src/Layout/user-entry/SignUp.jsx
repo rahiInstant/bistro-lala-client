@@ -2,18 +2,18 @@ import { updateProfile } from "firebase/auth";
 import { FaFacebookF, FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
-import auth from "../auth/firebase.config";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
-import useAuth from "../CustomHooks/useAuth";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
+import { AuthContext } from "../../Auth/AuthContext";
+import auth from "../../Auth/firebase.config";
 
 const SignUp = () => {
-  const { createUser, googleSignIn, facebookSignIn } = useAuth();
+  const { createUser, googleSignIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const successMsg = (msg) => toast.success(msg);
   const errorMsg = (msg) => toast.error(msg);
-  const [helmet, setHelmet] = useState("Car Doctor | Log in");
+  // const [helmet, setHelmet] = useState("Car Doctor | Log in");
 
   function handleFormSubmit(e) {
     e.preventDefault();
@@ -26,7 +26,7 @@ const SignUp = () => {
         updateProfile(auth.currentUser, { displayName: name })
           .then(() => {
             successMsg("Create User successfully. Redirecting...");
-            setHelmet("Redirecting...");
+            // setHelmet("Redirecting...");
             setTimeout(() => {
               navigate(location?.state ? location.state : "/");
             }, 2000);
@@ -49,7 +49,7 @@ const SignUp = () => {
     googleSignIn()
       .then(() => {
         successMsg("Sign in successfully with Google. Redirecting...");
-        setHelmet("Redirecting...");
+        // setHelmet("Redirecting...");
         setTimeout(() => {
           navigate(location?.state ? location.state : "/");
         }, 2000);
@@ -61,27 +61,13 @@ const SignUp = () => {
       });
   }
 
-  function handleSignInWithFacebook() {
-    facebookSignIn()
-      .then(() => {
-        successMsg("Sign in successfully with Google. Redirecting...");
-        setHelmet("Redirecting...");
-        setTimeout(() => {
-          navigate(location?.state ? location.state : "/");
-        }, 2000);
-      })
-      .catch((error) => {
-        const Msg = error.message;
-        const actualMsg = Msg.slice(Msg.indexOf("/") + 1, Msg.indexOf(")"));
-        errorMsg(actualMsg);
-      });
-  }
+
   const inputField = (label, placeholder, name, type = "text") => {
     return (
       <div className="flex flex-col gap-3 w-full">
-        <Helmet>
+        {/* <Helmet>
           <title>{helmet}</title>
-        </Helmet>
+        </Helmet> */}
         <label htmlFor="name" className="text-lg font-semibold">
           {label}
         </label>
@@ -105,9 +91,9 @@ const SignUp = () => {
     );
   };
   return (
-    <div className="flex gap-6 mt-[150px] items-center">
+    <div className="flex gap-6 mt-[150px] items-center max-w-[1320px] mx-auto">
       <div className="w-1/2">
-        <img className="h-[500px]" src="/images/login/login.svg" alt="" />
+        <img className="h-[500px]" src="/others/authentication2.png" alt="" />
       </div>
       <div className="border p-[75px] rounded-[10px] w-1/2 flex flex-col items-center">
         <h1 className="text-[40px] font-semibold mb-10 text-center">Sign Up</h1>
@@ -131,7 +117,7 @@ const SignUp = () => {
           Or Sign Up with
         </h3>
         <div className="flex gap-6">
-          {icon(<FaFacebookF />, handleSignInWithFacebook)}
+          {/* {icon(<FaFacebookF />, handleSignInWithFacebook)} */}
           {icon(<FcGoogle />, handleSignInWithGoogle)}
           {icon(<FaTwitter />)}
         </div>

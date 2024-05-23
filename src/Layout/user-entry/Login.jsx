@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaFacebookF, FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Helmet } from "react-helmet-async";
-import useAuth from "../CustomHooks/useAuth";
+import { AuthContext } from "../../Auth/AuthContext";
+// import { Helmet } from "react-helmet-async";
 
 const Login = () => {
-  const { logIn, googleSignIn, facebookSignIn } = useAuth();
+  const { manualSignIn, googleSignIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const successMsg = (msg) => toast.success(msg);
@@ -20,7 +20,7 @@ const Login = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    logIn(email, password)
+    manualSignIn(email, password)
       .then(() => {
         successMsg("Sign in successfully. Redirecting...");
         setHelmet("Redirecting...");
@@ -52,21 +52,7 @@ const Login = () => {
       });
   }
 
-  function handleSignInWithFacebook() {
-    facebookSignIn()
-      .then(() => {
-        successMsg("Sign in successfully with Google. Redirecting...");
-        setHelmet("Redirecting...");
-        setTimeout(() => {
-          navigate(location?.state ? location.state : "/");
-        }, 2000);
-      })
-      .catch((error) => {
-        const Msg = error.message;
-        const actualMsg = Msg.slice(Msg.indexOf("/") + 1, Msg.indexOf(")"));
-        errorMsg(actualMsg);
-      });
-  }
+
 
   const inputField = (label, placeholder, name, type = "text") => {
     return (
@@ -95,12 +81,12 @@ const Login = () => {
   };
   return (
     <div>
-      <Helmet>
+      {/* <Helmet>
         <title>{helmet}</title>
-      </Helmet>
-      <div className="flex gap-6 mt-[150px] items-center">
+      </Helmet> */}
+      <div className="flex gap-6 mt-[150px] items-center max-w-[1320px] mx-auto">
         <div className="w-1/2">
-          <img className="h-[500px]" src="/images/login/login.svg" alt="" />
+          <img className="h-[500px]" src="/others/authentication2.png" alt="" />
         </div>
         <div className="border p-[75px] rounded-[10px] w-1/2 flex flex-col items-center">
           <h1 className="text-[40px] font-semibold mb-10 text-center">
@@ -125,7 +111,6 @@ const Login = () => {
             Or Log In with
           </h3>
           <div className="flex gap-6">
-            {icon(<FaFacebookF />, handleSignInWithFacebook)}
             {icon(<FcGoogle />, handleSignInWithGoogle)}
             {icon(<FaTwitter />)}
           </div>
