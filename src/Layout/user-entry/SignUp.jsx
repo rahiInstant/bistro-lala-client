@@ -1,12 +1,13 @@
 import { updateProfile } from "firebase/auth";
-import { FaFacebookF, FaTwitter } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 // import { Helmet } from "react-helmet-async";
 import { AuthContext } from "../../Auth/AuthContext";
 import auth from "../../Auth/firebase.config";
+
 
 const SignUp = () => {
   const { createUser, googleSignIn } = useContext(AuthContext);
@@ -14,6 +15,7 @@ const SignUp = () => {
   const successMsg = (msg) => toast.success(msg);
   const errorMsg = (msg) => toast.error(msg);
   // const [helmet, setHelmet] = useState("Car Doctor | Log in");
+
 
   function handleFormSubmit(e) {
     e.preventDefault();
@@ -60,7 +62,6 @@ const SignUp = () => {
         errorMsg(actualMsg);
       });
   }
-
 
   const inputField = (label, placeholder, name, type = "text") => {
     return (

@@ -1,11 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaFacebookF, FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../Auth/AuthContext";
 // import { Helmet } from "react-helmet-async";
-
+import {
+  loadCaptchaEnginge,
+  LoadCanvasTemplate,
+  validateCaptcha,
+} from "react-simple-captcha";
 const Login = () => {
   const { manualSignIn, googleSignIn } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -14,12 +18,21 @@ const Login = () => {
   const errorMsg = (msg) => toast.error(msg);
   const [helmet, setHelmet] = useState("Car Doctor | Log in");
 
+  useEffect(() => {
+    loadCaptchaEnginge(6);
+  }, []);
 
   function handleFormSubmit(e) {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
+    const captcha = form.captcha.value;
+    // console.log(validateCaptcha(captcha))
+    if (!validateCaptcha(captcha)) {
+      errorMsg("Please Enter Correct Captcha Text.");
+      return;
+    }
     manualSignIn(email, password)
       .then(() => {
         successMsg("Sign in successfully. Redirecting...");
@@ -52,11 +65,9 @@ const Login = () => {
       });
   }
 
-
-
   const inputField = (label, placeholder, name, type = "text") => {
     return (
-      <div className="flex flex-col gap-3 w-full">
+      <div className={`flex flex-col ${label == "" ? "" : "gap-3"} w-full`}>
         <label htmlFor="name" className="text-lg font-semibold">
           {label}
         </label>
@@ -98,6 +109,8 @@ const Login = () => {
           >
             {inputField("Email", "Your email", "email", "email")}
             {inputField("Password", "********", "password", "password")}
+            <LoadCanvasTemplate />
+            {inputField("", "Write above text here", "captcha")}
 
             <button
               type="submit"
