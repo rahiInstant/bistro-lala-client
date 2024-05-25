@@ -1,12 +1,15 @@
 import { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../Auth/AuthContext";
+import { HiOutlineShoppingCart } from "react-icons/hi";
 import toast from "react-hot-toast";
+import useCart from "../hooks/useCart";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logOut } = useContext(AuthContext);
   const successMsg = (msg) => toast.success(msg);
-
+  const [orderNumber] = useCart();
+  // console.log(orderNumber)
   function handleLogOut() {
     logOut()
       .then(() => successMsg("Log out successfully."))
@@ -95,6 +98,16 @@ const Navbar = () => {
               >
                 Contact Us
               </NavLink>
+              <Link to="dashboard/cart">
+                <div className=" rounded-lg px-3 py-2 flex gap-1 items-center transition-colors duration-300 transform  hover:bg-[#ffffff5b] text-white  ">
+                  <div className=" text-xl">
+                    <HiOutlineShoppingCart />
+                  </div>
+                  <p className="px-1 bg-pink-600 font-medium rounded-full">
+                    {user ? orderNumber?.length : 0}
+                  </p>
+                </div>
+              </Link>
             </div>
 
             <div className="flex items-center mt-4 lg:mt-0">

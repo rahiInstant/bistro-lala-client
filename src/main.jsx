@@ -11,6 +11,12 @@ import AuthProvider from "./Auth/AuthProvider.jsx";
 import Login from "./Layout/user-entry/Login.jsx";
 import SignUp from "./Layout/user-entry/SignUp.jsx";
 import { Toaster } from "react-hot-toast";
+import Private from "./Auth/Private.jsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Dashboard from "./Dashboard/Dashboard.jsx";
+import Cart from "./Dashboard/Cart/Cart.jsx";
+import UserHome from "./Dashboard/Home/UserHome.jsx";
+import Reservation from "./Dashboard/Reservation/Reservation.jsx";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -38,15 +44,45 @@ const routes = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "dashboard",
+    element: <Dashboard />,
+    children: [
+      {
+        path: "user-home",
+        element: <UserHome/>,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
+      },
+      {
+        path: "reservation",
+        element: <Reservation />,
+      },
+      {
+        path: "review",
+        element: <Reservation />,
+      },
+      {
+        path: "booking",
+        element: <Reservation />,
+      },
+    ],
+  },
 ]);
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <ChakraProvider>
-        <Toaster />
-        <RouterProvider router={routes} />
-      </ChakraProvider>
+      <QueryClientProvider client={queryClient}>
+        <ChakraProvider>
+          <Toaster />
+          <RouterProvider router={routes} />
+        </ChakraProvider>
+      </QueryClientProvider>
     </AuthProvider>
   </React.StrictMode>
 );

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Banner from "./Banner";
+import Swal from "sweetalert2";
 import {
   Tabs,
   TabList,
@@ -14,15 +15,19 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useMenu from "../../hooks/useMenu";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination} from "swiper/modules";
+import { Pagination } from "swiper/modules";
+import { AuthContext } from "../../Auth/AuthContext";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import toast from "react-hot-toast";
+import useCart from "../../hooks/useCart";
 
 const OurShop = () => {
   const TabStore = ["popular", "salad", "drinks", "dessert", "pizza", "soup"];
@@ -30,6 +35,43 @@ const OurShop = () => {
   const initialIndex = TabStore.indexOf(category.param);
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const foodItems = useMenu(TabStore[currentIndex]);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const axiosSecure = useAxiosSecure();
+  const successMsg = (msg) => toast.success(msg);
+  const [,fetchAgain] = useCart()
+  const handleAddToCart = (item) => {
+    // console.log(item);
+    if (user) {
+      const cartInfo = {
+        email: user.email,
+        foodName: item.name,
+        foodId: item._id,
+      };
+      axiosSecure.post("/cart", cartInfo).then((res) => {
+        console.log(res.data)
+        if (res.data.insertedId) {
+          successMsg("Add to cart successfully.");
+          fetchAgain()
+        }
+      });
+    } else {
+      Swal.fire({
+        title: "You are not login.",
+        text: "You cannot add to cart without login.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login", { state: location.pathname });
+        }
+      });
+    }
+  };
   const card = (items = []) => {
     return (
       <Swiper
@@ -66,7 +108,11 @@ const OurShop = () => {
                   </Stack>
                 </CardBody>
                 <div className="flex justify-center">
-                  <Button w={"fit-content"} borderBottom={"4px solid #BB8506"}>
+                  <Button
+                    onClick={() => handleAddToCart(item)}
+                    w={"fit-content"}
+                    borderBottom={"4px solid #BB8506"}
+                  >
                     Add to Cart
                   </Button>
                 </div>
