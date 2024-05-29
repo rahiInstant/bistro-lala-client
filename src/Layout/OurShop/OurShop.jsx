@@ -40,20 +40,22 @@ const OurShop = () => {
   const location = useLocation();
   const axiosSecure = useAxiosSecure();
   const successMsg = (msg) => toast.success(msg);
-  const [,fetchAgain] = useCart()
+  const [isDisabledAdd, setIsDisabled] = useState(false);
+  const [, fetchAgain] = useCart();
   const handleAddToCart = (item) => {
+    setIsDisabled(true);
     // console.log(item);
     if (user) {
       const cartInfo = {
         email: user.email,
-        foodName: item.name,
-        foodId: item._id,
+        ...item,
       };
       axiosSecure.post("/cart", cartInfo).then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         if (res.data.insertedId) {
           successMsg("Add to cart successfully.");
-          fetchAgain()
+          fetchAgain();
+          setIsDisabled(false);
         }
       });
     } else {
@@ -110,6 +112,7 @@ const OurShop = () => {
                 <div className="flex justify-center">
                   <Button
                     onClick={() => handleAddToCart(item)}
+                    isDisabled={isDisabledAdd}
                     w={"fit-content"}
                     borderBottom={"4px solid #BB8506"}
                   >

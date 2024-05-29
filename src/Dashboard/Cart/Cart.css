@@ -1,0 +1,12 @@
+table {
+    width: 100%;
+    table-layout: auto;
+    border-radius: 20px;
+    border-collapse: collapse;
+}
+
+th,td {
+    border: 1px solid #919191;
+    height: 50px;
+    padding:10px;
+}

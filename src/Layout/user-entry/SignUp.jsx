@@ -2,12 +2,13 @@ import { updateProfile } from "firebase/auth";
 import { FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import toast from "react-hot-toast";
 // import { Helmet } from "react-helmet-async";
 import { AuthContext } from "../../Auth/AuthContext";
 import auth from "../../Auth/firebase.config";
-
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import useCheck from "../../hooks/useCheck";
 
 const SignUp = () => {
   const { createUser, googleSignIn } = useContext(AuthContext);
@@ -15,7 +16,8 @@ const SignUp = () => {
   const successMsg = (msg) => toast.success(msg);
   const errorMsg = (msg) => toast.error(msg);
   // const [helmet, setHelmet] = useState("Car Doctor | Log in");
-
+  // const axiosPublic = useAxiosPublic();
+  const check = useCheck();
 
   function handleFormSubmit(e) {
     e.preventDefault();
@@ -27,8 +29,9 @@ const SignUp = () => {
       .then(() => {
         updateProfile(auth.currentUser, { displayName: name })
           .then(() => {
-            successMsg("Create User successfully. Redirecting...");
             // setHelmet("Redirecting...");
+            check(name, email);
+            successMsg("Create User successfully. Redirecting...");
             setTimeout(() => {
               navigate(location?.state ? location.state : "/");
             }, 2000);
@@ -49,7 +52,10 @@ const SignUp = () => {
 
   function handleSignInWithGoogle() {
     googleSignIn()
-      .then(() => {
+      .then((result) => {
+        // console.log(result)
+        // console.log('from google login',result.user.displayName, result.user.email)
+        check(result.user.displayName, result.user.email);
         successMsg("Sign in successfully with Google. Redirecting...");
         // setHelmet("Redirecting...");
         setTimeout(() => {

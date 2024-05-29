@@ -10,6 +10,7 @@ import {
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
+import useCheck from "../../hooks/useCheck";
 const Login = () => {
   const { manualSignIn, googleSignIn } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Login = () => {
   const successMsg = (msg) => toast.success(msg);
   const errorMsg = (msg) => toast.error(msg);
   const [helmet, setHelmet] = useState("Car Doctor | Log in");
-
+  const check = useCheck();
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -51,7 +52,8 @@ const Login = () => {
 
   function handleSignInWithGoogle() {
     googleSignIn()
-      .then(() => {
+      .then((result) => {
+        check(result.user.displayName, result.user.email);
         successMsg("Sign in successfully with Google. Redirecting...");
         setHelmet("Redirecting...");
         setTimeout(() => {

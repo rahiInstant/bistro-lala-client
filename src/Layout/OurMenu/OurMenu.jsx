@@ -8,6 +8,7 @@ const OurMenu = () => {
   took a galley of type and scrambled it to make a type 
   specimen book.`;
   //   console.log(popular,salad,drinks,dessert,pizza,soup)
+  
   return (
     <div>
       <Banner />

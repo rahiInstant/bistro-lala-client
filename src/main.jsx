@@ -17,6 +17,10 @@ import Dashboard from "./Dashboard/Dashboard.jsx";
 import Cart from "./Dashboard/Cart/Cart.jsx";
 import UserHome from "./Dashboard/Home/UserHome.jsx";
 import Reservation from "./Dashboard/Reservation/Reservation.jsx";
+import AdminHome from "./Dashboard/AdminHome/AdminHome.jsx";
+import AddItem from "./Dashboard/AddItem/AddItem.jsx";
+import ManageBookings from "./Dashboard/ManageBookings/ManageBookings.jsx";
+import AllUsers from "./Dashboard/AllUsers/AllUsers.jsx";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -50,7 +54,7 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "user-home",
-        element: <UserHome/>,
+        element: <UserHome />,
       },
       {
         path: "cart",
@@ -67,6 +71,22 @@ const routes = createBrowserRouter([
       {
         path: "booking",
         element: <Reservation />,
+      },
+      {
+        path: "admin-home",
+        element: <AdminHome />,
+      },
+      {
+        path: "add-item",
+        element: <AddItem />,
+      },
+      {
+        path: "manage-bookings",
+        element: <ManageBookings />,
+      },
+      {
+        path: "all-users",
+        element: <AllUsers />,
       },
     ],
   },
