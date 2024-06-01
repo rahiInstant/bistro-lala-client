@@ -98,7 +98,7 @@ const Navbar = () => {
               >
                 Contact Us
               </NavLink>
-              <Link to="dashboard/cart">
+              <Link to="dashboard">
                 <div className=" rounded-lg px-3 py-2 flex gap-1 items-center transition-colors duration-300 transform  hover:bg-[#ffffff5b] text-white  ">
                   <div className=" text-xl">
                     <HiOutlineShoppingCart />

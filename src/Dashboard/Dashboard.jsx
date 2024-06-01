@@ -5,13 +5,31 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import { FcRating } from "react-icons/fc";
 import { CiBookmarkPlus } from "react-icons/ci";
 import { IoIosHome } from "react-icons/io";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import { useContext } from "react";
+import { AuthContext } from "../Auth/AuthContext";
 const Dashboard = () => {
-  const isAdmin = true;
+  const axiosSecure = useAxiosSecure();
+  const { user, loading } = useContext(AuthContext);
+  const { data, isPending } = useQuery({
+    queryKey: ["isUserExist", loading],
+    queryFn: async () => {
+      const result = await axiosSecure.get(`/user-role?email=${user?.email}`);
+      return result.data;
+    },
+  });
+  // console.log('from dashboard', data)
+  if(isPending || loading) {
+    return 'wait Again...'
+  }
+  console.log(data)
+  // const isAdmin = true;
   return (
     <div className="flex max-w-[1320px] mx-auto bg-[#f7f6f6]">
       <div className="w-64 bg-orange-500">
         <ul className="p-4 font-semibold flex flex-col gap-2">
-          {isAdmin ? (
+          {data?.isAdmin ? (
             <>
               <NavLink to="/dashboard/admin-home">
                 <li className="p-2 bg-orange-300 rounded-md flex items-center gap-1">
