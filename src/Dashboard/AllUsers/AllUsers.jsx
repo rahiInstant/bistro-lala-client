@@ -18,8 +18,8 @@ const AllUsers = () => {
   if (isPending) {
     return "loading...";
   }
-  function handleDelete(userName) {
-    axiosSecure.delete(`/remove-user?name=${userName}`).then((res) => {
+  function handleDelete(email) {
+    axiosSecure.delete(`/remove-user?email=${email}`).then((res) => {
       if (res.data.deletedCount >= 1) {
         refetch();
       }
@@ -71,7 +71,7 @@ const AllUsers = () => {
                       <GrDocumentUpdate />
                     </button>
                     <button
-                      onClick={() => handleDelete(item.name)}
+                      onClick={() => handleDelete(item.email)}
                       className="p-2 rounded-md bg-red-800 h-fit"
                     >
                       <MdDelete />
