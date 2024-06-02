@@ -35,7 +35,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       unSubscribe();
     };
-  }, []);
+  }, [axiosPublic]);
   console.log(user);
 
   const createUser = (mail, pass) => {

@@ -21,6 +21,7 @@ import AdminHome from "./Dashboard/AdminHome/AdminHome.jsx";
 import AddItem from "./Dashboard/AddItem/AddItem.jsx";
 import ManageBookings from "./Dashboard/ManageBookings/ManageBookings.jsx";
 import AllUsers from "./Dashboard/AllUsers/AllUsers.jsx";
+import AdmineRoute from "./Private/AdmineRoute.jsx";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -74,19 +75,35 @@ const routes = createBrowserRouter([
       },
       {
         path: "admin-home",
-        element: <AdminHome />,
+        element: (
+          <AdmineRoute>
+            <AdminHome />
+          </AdmineRoute>
+        ),
       },
       {
         path: "add-item",
-        element: <AddItem />,
+        element: (
+          <AdmineRoute>
+            <AddItem />
+          </AdmineRoute>
+        ),
       },
       {
         path: "manage-bookings",
-        element: <ManageBookings />,
+        element: (
+          <AdmineRoute>
+            <ManageBookings />
+          </AdmineRoute>
+        ),
       },
       {
         path: "all-users",
-        element: <AllUsers />,
+        element: (
+          <AdmineRoute>
+            <AllUsers />
+          </AdmineRoute>
+        ),
       },
     ],
   },

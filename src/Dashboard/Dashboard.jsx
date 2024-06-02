@@ -9,22 +9,14 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { useContext } from "react";
 import { AuthContext } from "../Auth/AuthContext";
+import useAdmin from "../hooks/useAdmin";
 const Dashboard = () => {
-  const axiosSecure = useAxiosSecure();
-  const { user, loading } = useContext(AuthContext);
-  const { data, isPending } = useQuery({
-    queryKey: ["isUserExist",loading],
-    queryFn: async () => {
-      const result = await axiosSecure.get(`/user-role?email=${user?.email}`);
-      return result.data;
-    },
-    // enabled:!!user
-  });
+  const [data, isPending, loading] = useAdmin();
   // console.log('from dashboard', data)
-  if(isPending || loading) {
-    return 'wait Again...'
+  if (isPending || loading) {
+    return "wait Again...";
   }
-  console.log(data)
+  // console.log(data)
   // const isAdmin = true;
   return (
     <div className="flex max-w-[1320px] mx-auto bg-[#f7f6f6]">
