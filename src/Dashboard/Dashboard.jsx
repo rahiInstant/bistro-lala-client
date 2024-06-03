@@ -19,7 +19,7 @@ const Dashboard = () => {
   // console.log(data)
   // const isAdmin = true;
   return (
-    <div className="flex max-w-[1320px] mx-auto bg-[#f7f6f6]">
+    <div className="flex max-w-[1320px] mx-auto bg-[#FFFFFF]">
       <div className="w-64 bg-orange-500">
         <ul className="p-4 font-semibold flex flex-col gap-2">
           {data?.isAdmin ? (
