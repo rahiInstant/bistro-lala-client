@@ -4,7 +4,7 @@ import useAxiosPublic from "./useAxiosPublic";
 const useCheck = () => {
   const axiosPublic = useAxiosPublic();
   return function (name, email) {
-    axiosPublic.post("/users", { name, email }).then((res) => {
+    axiosPublic.post("/users", { name, email, isAdmin: false }).then((res) => {
       console.log(res.data);
       //   console.log(res.data);
       //   if (res.data.insertedId) {

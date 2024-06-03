@@ -2,19 +2,10 @@ import { useState } from "react";
 import SectionHeader from "../../component/SectionHeader";
 import { set, useForm } from "react-hook-form";
 const AddItem = () => {
-  const [filename, setFilename] = useState('no file chosen.')
+  const [filename, setFilename] = useState(null);
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => console.log(data);
-function handleFileUpload(e) {
-  console.log('file upload')
-  const file = e.target.files[0]
-  if(file) {
-    setFilename(file.name)
-  } else {
-    setFilename('no file chosen.')
-  }
-}
-
+  console.log("from add item >>> ", filename);
   return (
     <div className=" mb-20  ">
       <SectionHeader subTitle="What's new?" title="ADD AN ITEM" />
@@ -82,15 +73,46 @@ function handleFileUpload(e) {
             className="w-full p-4 rounded-md"
             {...register("details")}
           ></textarea>
-          <label htmlFor="file">
-            <div className="px-3 py-1 cursor-pointer bg-gray-600 text-white mt-4 text-lg font-medium w-fit">Upload Photo</div>
-            <p >{filename}</p>
-          </label>
-          <input  {...register('file')} type="file" name="" id="file" className="hidden"/>
+          <div
+            style={{
+              backgroundImage: `url(${
+                filename ? URL.createObjectURL(filename) : ""
+              })`,
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+            }}
+            className={`mt-4  w-36 h-36 rounded-full text-4xl font-bold bg-slate-300 flex justify-center items-center`}
+          >
+            {filename ? "" : "+"}
+          </div>
+          <div className="w-fit flex items-center justify-center gap-2 mt-4">
+            <label htmlFor="file" className="">
+              <div className="px-3 py-1 cursor-pointer bg-gray-600 text-white  text-lg font-medium ">
+                Upload Photo
+              </div>
+            </label>
+            <div>{filename ? filename.name : "no file chosen."}</div>
+          </div>
+
+          <input
+            {...register("file", {
+              required: true,
+              onChange: (e) => {
+                if (e.target.files[0]) {
+                  setFilename(e.target.files[0]);
+                }
+              },
+            })}
+            type="file"
+            id="file"
+            className="hidden"
+            accept="image/jpeg, image/png"
+            multiple
+          />
           {/* <button type="submit"  className="bg-[#835D23] px-2 py-3 text-[#fff] text-xl font-bold mt-3">ADD ITEM</button> */}
           <input
             type="submit"
-            className="bg-[#835D23] px-2 py-3 text-[#fff] text-xl font-bold mt-3 cursor-pointer block"
+            className="bg-[#835D23] px-2 py-3 text-[#fff] text-xl font-bold mt-6 cursor-pointer block"
             value="ADD ITEM"
           />
         </form>
