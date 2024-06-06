@@ -1,6 +1,7 @@
 import MenuSection from "../../component/MenuSection";
 import Banner from "./Banner";
 import useMenu from "../../hooks/useMenu";
+import useSeparation from "../../hooks/useSeparation";
 
 const OurMenu = () => {
   const sub = `Lorem Ipsum has been the industry’s standard 
@@ -12,34 +13,34 @@ const OurMenu = () => {
   return (
     <div>
       <Banner />
-      <MenuSection category="popular" foodList={useMenu("popular")} />
+      <MenuSection category="popular" foodList={useSeparation("popular")} />
       <MenuSection
         category="dessert"
-        foodList={useMenu("dessert")}
+        foodList={useSeparation("dessert")}
         title="desserts"
         subTitle={sub}
       />
       <MenuSection
         category="pizza"
-        foodList={useMenu("pizza")}
+        foodList={useSeparation("pizza")}
         title="pizza"
         subTitle={sub}
       />
       <MenuSection
         category="salad"
-        foodList={useMenu("salad")}
+        foodList={useSeparation("salad")}
         title="salad"
         subTitle={sub}
       />
       <MenuSection
         category="drinks"
-        foodList={useMenu("drinks")}
+        foodList={useSeparation("drinks")}
         title="drinks"
         subTitle={sub}
       />
       <MenuSection
         category="soup"
-        foodList={useMenu("soup")}
+        foodList={useSeparation("soup")}
         title="soup"
         subTitle={sub}
       />

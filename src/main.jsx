@@ -22,6 +22,7 @@ import AddItem from "./Dashboard/AddItem/AddItem.jsx";
 import ManageBookings from "./Dashboard/ManageBookings/ManageBookings.jsx";
 import AllUsers from "./Dashboard/AllUsers/AllUsers.jsx";
 import AdmineRoute from "./Private/AdmineRoute.jsx";
+import ManageItems from "./Dashboard/ManageItems/ManageItems.jsx";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -94,6 +95,14 @@ const routes = createBrowserRouter([
         element: (
           <AdmineRoute>
             <ManageBookings />
+          </AdmineRoute>
+        ),
+      },
+      {
+        path: "manage-items",
+        element: (
+          <AdmineRoute>
+            <ManageItems />
           </AdmineRoute>
         ),
       },

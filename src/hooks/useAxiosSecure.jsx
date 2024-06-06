@@ -4,9 +4,9 @@ import { AuthContext } from "../Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const instance = axios.create({
-  baseURL: "https://lala-sepia.vercel.app",
+  baseURL: "http://localhost:8000",
 });
-//http://localhost:8000
+//https://lala-sepia.vercel.app
 const useAxiosSecure = () => {
   const {logOut} = useContext(AuthContext)
   const navigate = useNavigate()

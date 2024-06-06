@@ -42,6 +42,12 @@ const Dashboard = () => {
                   Manage Bookings
                 </li>
               </NavLink>
+              <NavLink to="/dashboard/manage-items">
+                <li className="p-2 bg-orange-300 rounded-md flex items-center gap-1">
+                  <FaBook />
+                  Manage Items
+                </li>
+              </NavLink>
               <NavLink to="/dashboard/all-users">
                 <li className="p-2 bg-orange-300 rounded-md flex items-center gap-1">
                   <FaUsers />

@@ -32,7 +32,7 @@ const MenuSection = ({ title, subTitle, foodList, category}) => {
         <SectionHeader subTitle={"Don't miss"} title={"TODAY'S OFFER"} />
       )}
       <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[1320px] mx-auto">
-        {foodList.map((item, id) =>
+        {foodList?.map((item, id) =>
           menu(id, item.name, item.recipe, item.price)
         )}
       </div>
@@ -49,6 +49,4 @@ const MenuSection = ({ title, subTitle, foodList, category}) => {
 
 export default MenuSection;
 
-MenuSection.propTypes = {
-  foodList: PropTypes.array.isRequired,
-};
+

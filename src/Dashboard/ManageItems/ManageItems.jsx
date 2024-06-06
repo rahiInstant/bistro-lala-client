@@ -1,40 +1,31 @@
-import { useState } from "react";
-import SectionHeader from "../../component/SectionHeader";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import useCart from "../../hooks/useCart";
-import "./Cart.css";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { MdDelete } from "react-icons/md";
-import { Link } from "react-router-dom";
-const Cart = () => {
-  const [data, fetchAgain] = useCart();
-  // const [totalPrice, setTotalPrice] = useState(0)
-  const totalPrice = data?.reduce((sum, item) => {
-    return sum + item.price;
-  }, 0);
-  console.log(data);
+import SectionHeader from "../../component/SectionHeader";
+import useMenu from "../../hooks/useMenu";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import toast from "react-hot-toast";
+
+const ManageItems = () => {
   const axiosSecure = useAxiosSecure();
-  function handleDelete(foodName) {
-    axiosSecure.delete(`/escape?name=${foodName}`).then((res) => {
-      if (res.data.deletedCount >= 1) {
-        fetchAgain();
+  const successMsg = (msg) => toast.success(msg);
+  const [data, loadAgain] = useMenu();
+//   console.log(data);
+  const handleDelete = (id) => {
+    console.log("delete attempt");
+    axiosSecure.delete(`/item-delete/${id}`).then((res) => {
+    //   console.log(res.data);
+      if (res?.data?.deletedCount >= 1) {
+        loadAgain();
+        successMsg("Item deleted successfully.");
       }
     });
-  }
+  };
   return (
     <div className="mb-20">
       <SectionHeader subTitle="My Cart" title="WANNA ADD MORE?" />
       <div className="p-10 rounded-xl bg-[#fff] mt-10 max-w-[800px] mx-auto">
         <div className="flex justify-between">
-          <div className="font-semibold text-xl">
-            TOTAL ORDER: {data?.length}
-          </div>
-          <div className="font-semibold text-xl">
-            TOTAL PRICE: ${totalPrice}
-          </div>
-          <Link to="/dashboard/reservation">
-            <div className="p-2 rounded-md bg-[#D1A054] font-medium">PAY</div>
-          </Link>
+          <div className="font-semibold text-xl">TOTAL ITEM: {data?.length} </div>
         </div>
         <div className="mt-10">
           <table className="">
@@ -60,7 +51,7 @@ const Cart = () => {
                         <GrDocumentUpdate />
                       </button>
                       <button
-                        onClick={() => handleDelete(item.name)}
+                        onClick={() => handleDelete(item._id)}
                         className="p-2 rounded-md bg-red-800 h-fit"
                       >
                         <MdDelete />
@@ -77,4 +68,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default ManageItems;

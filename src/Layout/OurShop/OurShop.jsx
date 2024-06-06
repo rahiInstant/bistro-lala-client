@@ -28,13 +28,14 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import toast from "react-hot-toast";
 import useCart from "../../hooks/useCart";
+import useSeparation from "../../hooks/useSeparation";
 
 const OurShop = () => {
   const TabStore = ["popular", "salad", "drinks", "dessert", "pizza", "soup"];
   const category = useParams();
   const initialIndex = TabStore.indexOf(category.param);
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
-  const foodItems = useMenu(TabStore[currentIndex]);
+  const foodItems = useSeparation(TabStore[currentIndex]);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,10 +46,16 @@ const OurShop = () => {
   const handleAddToCart = (item) => {
     setIsDisabled(true);
     // console.log(item);
+    const { name, recipe, image, category, price } = item;
     if (user) {
       const cartInfo = {
         email: user.email,
-        ...item,
+        name,
+        recipe,
+        image,
+        category,
+        price,
+        orderID: Math.floor(Math.random() * 10000000 + 100).toString(16),
       };
       axiosSecure.post("/cart", cartInfo).then((res) => {
         console.log(res.data);
@@ -94,7 +101,7 @@ const OurShop = () => {
               >
                 <CardBody>
                   <Image
-                    src="/home/slide1.jpg"
+                    src={item?.image}
                     alt="Green double couch with wooden legs"
                     //   borderRadius="lg"
                     width={"100%"}
@@ -102,11 +109,9 @@ const OurShop = () => {
                   />
                   <Stack mt={"10px"} spacing="3">
                     <Heading size="md" textAlign={"center"}>
-                      Living room Sofa
+                      {item.name}
                     </Heading>
-                    <Text textAlign={"center"}>
-                      Lettuce, Eggs, Parmesan Cheese, Chicken Breast Fillets.
-                    </Text>
+                    <Text textAlign={"center"}>{item.recipe}</Text>
                   </Stack>
                 </CardBody>
                 <div className="flex justify-center">
