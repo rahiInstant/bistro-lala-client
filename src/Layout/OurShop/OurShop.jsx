@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Banner from "./Banner";
 import Swal from "sweetalert2";
 import {
@@ -29,6 +29,7 @@ import "swiper/css/navigation";
 import toast from "react-hot-toast";
 import useCart from "../../hooks/useCart";
 import useSeparation from "../../hooks/useSeparation";
+import useAdmin from "../../hooks/useAdmin";
 
 const OurShop = () => {
   const TabStore = ["popular", "salad", "drinks", "dessert", "pizza", "soup"];
@@ -37,6 +38,7 @@ const OurShop = () => {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const foodItems = useSeparation(TabStore[currentIndex]);
   const { user } = useContext(AuthContext);
+  const [data] = useAdmin();
   const navigate = useNavigate();
   const location = useLocation();
   const axiosSecure = useAxiosSecure();
@@ -46,11 +48,11 @@ const OurShop = () => {
   const handleAddToCart = (item) => {
     setIsDisabled(true);
     // console.log(item);
-    const { _id,name, recipe, image, category, price } = item;
+    const { _id, name, recipe, image, category, price } = item;
     if (user) {
       const cartInfo = {
         menuID: _id,
-        email: user.email,
+        email: user?.email,
         name,
         recipe,
         image,

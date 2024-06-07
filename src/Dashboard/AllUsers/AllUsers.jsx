@@ -65,7 +65,7 @@ const AllUsers = () => {
                 <tr key={idx}>
                   <td>{idx + 1}</td>
                   <td>{item.name}</td>
-                  <td>${item.email}</td>
+                  <td>{item.email}</td>
                   <td className="  text-white">
                     <button className="p-2 mr-3 rounded-md bg-green-800 h-fit">
                       <GrDocumentUpdate />

@@ -13,6 +13,7 @@ const useAdmin = () => {
       
       return result.data;
     },
+    enabled:!!user
   });
   return [data, isPending, loading];
 };

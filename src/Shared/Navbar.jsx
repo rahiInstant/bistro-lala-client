@@ -4,9 +4,11 @@ import { AuthContext } from "../Auth/AuthContext";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import toast from "react-hot-toast";
 import useCart from "../hooks/useCart";
+import useAdmin from "../hooks/useAdmin";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logOut } = useContext(AuthContext);
+  const [data] = useAdmin();
   const successMsg = (msg) => toast.success(msg);
   const [orderNumber] = useCart();
   // console.log(orderNumber)
@@ -98,16 +100,28 @@ const Navbar = () => {
               >
                 Contact Us
               </NavLink>
-              <Link to={`${user ? "dashboard" : "/login"}`}>
-                <div className=" rounded-lg px-3 py-2 flex gap-1 items-center transition-colors duration-300 transform  hover:bg-[#ffffff5b] text-white  ">
-                  <div className=" text-xl">
-                    <HiOutlineShoppingCart />
+              {user ? (
+                <NavLink
+                  to={`dashboard/${data?.isAdmin ? "admin-home" : "user-home"}`}
+                  className="px-3 py-2 mx-3 mt-2 text-[#fff] transition-colors duration-300 transform rounded-md lg:mt-0  hover:bg-[#ffffff5b] "
+                >
+                  Dashboard
+                </NavLink>
+              ) : (
+                ""
+              )}
+              {user && !data?.isAdmin && (
+                <Link to={`${user ? "dashboard/cart" : "/login"}`}>
+                  <div className=" rounded-lg px-3 py-2 flex gap-1 items-center transition-colors duration-300 transform  hover:bg-[#ffffff5b] text-white  ">
+                    <div className=" text-xl">
+                      <HiOutlineShoppingCart />
+                    </div>
+                    <p className="px-1 bg-pink-600 font-medium rounded-full">
+                      {user ? orderNumber?.length : 0}
+                    </p>
                   </div>
-                  <p className="px-1 bg-pink-600 font-medium rounded-full">
-                    {user ? orderNumber?.length : 0}
-                  </p>
-                </div>
-              </Link>
+                </Link>
+              )}
             </div>
 
             <div className="flex items-center mt-4 lg:mt-0">
