@@ -15,7 +15,6 @@ const useCart = () => {
     enabled: !!user,
   });
   // console.log("from use cart hook", data);
-
   return [data, fetchAgain];
 };
 

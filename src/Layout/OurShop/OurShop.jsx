@@ -46,9 +46,10 @@ const OurShop = () => {
   const handleAddToCart = (item) => {
     setIsDisabled(true);
     // console.log(item);
-    const { name, recipe, image, category, price } = item;
+    const { _id,name, recipe, image, category, price } = item;
     if (user) {
       const cartInfo = {
+        menuID: _id,
         email: user.email,
         name,
         recipe,

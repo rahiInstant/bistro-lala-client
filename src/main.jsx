@@ -23,6 +23,7 @@ import ManageBookings from "./Dashboard/ManageBookings/ManageBookings.jsx";
 import AllUsers from "./Dashboard/AllUsers/AllUsers.jsx";
 import AdmineRoute from "./Private/AdmineRoute.jsx";
 import ManageItems from "./Dashboard/ManageItems/ManageItems.jsx";
+import PayHistory from "./Dashboard/PayHistory/PayHistory.jsx";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -56,23 +57,51 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "user-home",
-        element: <UserHome />,
+        element: (
+          <Private>
+            <UserHome />
+          </Private>
+        ),
       },
       {
         path: "cart",
-        element: <Cart />,
+        element: (
+          <Private>
+            <Cart />
+          </Private>
+        ),
       },
       {
         path: "reservation",
-        element: <Reservation />,
+        element: (
+          <Private>
+            <Reservation />
+          </Private>
+        ),
       },
       {
         path: "review",
-        element: <Reservation />,
+        element: (
+          <Private>
+            <Reservation />
+          </Private>
+        ),
       },
       {
         path: "booking",
-        element: <Reservation />,
+        element: (
+          <Private>
+            <Reservation />
+          </Private>
+        ),
+      },
+      {
+        path: "payment-history",
+        element: (
+          <Private>
+            <PayHistory />
+          </Private>
+        ),
       },
       {
         path: "admin-home",

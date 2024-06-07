@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { HiOutlineShoppingCart } from "react-icons/hi";
-import { FaBook, FaHouseUser, FaUsers, FaUtensils } from "react-icons/fa";
+import { FaBook, FaHistory, FaHouseUser, FaUsers, FaUtensils } from "react-icons/fa";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { FcRating } from "react-icons/fc";
 import { CiBookmarkPlus } from "react-icons/ci";
@@ -73,6 +73,12 @@ const Dashboard = () => {
                 <li className="p-2 bg-orange-300 rounded-md flex items-center gap-1">
                   <FaRegCalendarAlt />
                   Reservation
+                </li>
+              </NavLink>
+              <NavLink to="/dashboard/payment-history">
+                <li className="p-2 bg-orange-300 rounded-md flex items-center gap-1">
+                  <FaHistory />
+                  Payment History
                 </li>
               </NavLink>
               <NavLink to="/dashboard/review">

@@ -15,13 +15,14 @@ const CheckOutForm = () => {
   const [data] = useCart();
   const totalPrice = data?.reduce((total, item) => total + item.price, 0);
   const { data: userData } = useQuery({
-    queryKey: ["orderData"],
+    queryKey: ["orderData", totalPrice],
     queryFn: async () => {
       const result = await axiosSecure.post("/create-payment-intent", {
         price: totalPrice,
       });
       return result.data;
     },
+    enabled: totalPrice > 0,
   });
   async function handleSubmit(e) {
     e.preventDefault();
@@ -51,22 +52,23 @@ const CheckOutForm = () => {
       });
     if (transactionError) {
       console.log("transaction error", transactionError);
-      setError(transactionError.message)
+      setError(transactionError.message);
     } else {
       console.log("payment intent", paymentIntent);
       if (paymentIntent.status == "succeeded") {
         setTransactionId(paymentIntent.id);
-        const payment= {
-          email:user?.email,
-          price:totalPrice,
-          date:new Date().getUTCDate(),
+        const payment = {
+          email: user?.email,
+          price: totalPrice,
+          date: new Date().toUTCString(),
           cartID: data?.map((item) => item._id),
-          name:data?.map(item => item.name),
-          transactionId:transactionId,
-          status:'pending'
-        }
-        const paymentSaved = await axiosSecure.post('/payment', payment)
-        console.log(paymentSaved)
+          menuID: data?.map(item =>item.menuID),
+          transactionId: transactionId,
+          status: "pending",
+        };
+        const paymentSaved = await axiosSecure.post("/payment", payment);
+
+        console.log(paymentSaved);
       }
     }
   }
@@ -75,7 +77,7 @@ const CheckOutForm = () => {
   return (
     <div className="w-96 border mx-auto mt-16 rounded-md">
       <p className="text-center text-lg font-medium mt-5">
-        Total amount have to pay: ${totalPrice}
+        Total amount have to pay: ${totalPrice > 0 ? totalPrice : 0}
       </p>
       <form onSubmit={handleSubmit}>
         <CardElement
@@ -98,8 +100,16 @@ const CheckOutForm = () => {
         >
           PAY
         </button>
-        {error && <p className="text-red-600 text-lg text-center font-medium">{error}</p>}
-        {transactionId && <p className="text-green-600 text-lg text-center font-medium">TrnX: {transactionId}</p>}
+        {error && (
+          <p className="text-red-600 text-lg text-center font-medium">
+            {error}
+          </p>
+        )}
+        {transactionId && (
+          <p className="text-green-600 text-lg text-center font-medium">
+            TrnX: {transactionId}
+          </p>
+        )}
       </form>
     </div>
   );
